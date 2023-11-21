@@ -53,8 +53,9 @@
 		while(rset.next()){
 			// For each product create a link of the form
 			// addcart.jsp?id=productId&name=productName&price=productPrice
-			out.print("<tr><td><a href=\"addcart.jsp?id=" + rset.getString(1) + "&amp;name=" + rset.getString(2) + "&amp;price=" + rset.getString(3) + "\">Add to Cart</a></td><td>" + rset.getString(2) + "</td><td>" + currFormat.format(rset.getDouble(3)) + "</td></tr>");
+			out.print("<tr><td><a href=\"addcart.jsp?id=" + rset.getString(1) + "&amp;name=" + rset.getString(2) + "&amp;price=" + rset.getString(3) + "\">Add to Cart</a></td><td><a href=\"product.jsp?id=" + rset.getString(1) + "\">" + rset.getString(2) + "</a></td><td>" + currFormat.format(rset.getDouble(3)) + "</td></tr>");
 		}
+		
 	} catch (SQLException ex) {
 		System.err.println(ex);
 	} finally {
