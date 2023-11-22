@@ -50,8 +50,7 @@
 		pstmt.setString(2, "");
 		pstmt.setString(3, "1");
 		pstmt.executeUpdate();
-		System.out.println(1);
-		
+
 		 while(rset.next()){
 			// TODO: For each item verify sufficient quantity available in warehouse 1.
 			sql = "SELECT quantity FROM productInventory WHERE productId = ? AND warehouseId = 1;";
@@ -86,7 +85,7 @@
 	}
 %>                       				
 
-<h2><a href="shop.html">Back to Main Page</a></h2>
+<h2><a href="index.jsp">Back to Main Page</a></h2>
 
 </div>
 </body>
