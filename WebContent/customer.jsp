@@ -23,9 +23,9 @@ try {
 	PreparedStatement pstmt = con.prepareStatement(sql);
 	pstmt.setString(1, "arnold");
 	ResultSet rset = pstmt.executeQuery();
+	rset.next();
 
 	out.println("<table><tbody>");
-	rset.next();
 	out.println("<tr><th>Id</th><td>"+ rset.getString(1) +"</td></tr>");
 	out.println("<tr><th>First Name</th><td>"+ rset.getString(2) +"</td></tr>");
 	out.println("<tr><th>Last Name</th><td>"+ rset.getString(3) +"</td></tr>");
@@ -38,6 +38,7 @@ try {
 	out.println("<tr><th>Country</th><td>"+ rset.getString(10) +"</td></tr>");
 	out.println("<tr><th>User Id</th><td>"+ rset.getString(11) +"</td></tr>");
 	out.println("</tbody></table>");
+	
 } catch(SQLException ex) {
 	System.err.println(ex);
 } finally {
