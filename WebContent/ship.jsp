@@ -9,10 +9,12 @@
 
 <html>
 <head>
-<title>YOUR NAME Grocery Shipment Processing</title>
+	<title>Bichitra Beauty Shipment Processing</title>
+
+	<%@ include file="headingdata.jsp" %>
 </head>
 <body>
-        
+<div class="container">     
 <%@ include file="header.jsp" %>
 
 <%
@@ -86,5 +88,6 @@
 
 <h2><a href="shop.html">Back to Main Page</a></h2>
 
+</div>
 </body>
 </html>

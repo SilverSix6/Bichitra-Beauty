@@ -1,0 +1,29 @@
+.header {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+body {
+    font-family: Georgia;
+    background-color: #fae1f5;
+}
+.primary {
+    background-color: #fae1f5;
+}
+.secondary {
+    background-color: #f7cbed;
+}
+
+.bottom-info-bar {
+  position: fixed;
+  bottom: 0;
+  background-color: #f7cbed;
+  padding-top: 10px;
+}
+
+.table-striped > tbody > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th {
+    background-color: #f7cbed;
+ }
+
+ .table-striped > tbody > tr:nth-child(even) > td, .table-striped > tbody > tr:nth-child(even) > th {
+    background-color: #fae1f5;
+ }

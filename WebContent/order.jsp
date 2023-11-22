@@ -8,10 +8,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>YOUR NAME Grocery Order Processing</title>
+	<title>YOUR NAME Grocery Order Processing</title>
+
+	<%@ include file="headingdata.jsp" %>
 </head>
 <body>
-
+<div class="container">
 <% 
 	// Get customer id
 	String custId = request.getParameter("customerId");
@@ -20,7 +22,6 @@
 
 
 	
-	// If either are not true, display an error message
 
 	// Make connection
 	Connection con = null;
@@ -32,6 +33,7 @@
 
 	try {
 		// Determine if valid customer id was entered
+		// If either are not true, display an error message	
 		int userid = Integer.parseInt(custId);
 
 
@@ -144,6 +146,10 @@
 	}
 		
 %>
-</BODY>
-</HTML>
+<h2><a href="listprod.jsp">Continue Shopping</a></h2>
+
+
+</div>
+</body>
+</html>
 

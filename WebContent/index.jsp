@@ -1,33 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-        <title>Ray's Grocery Main Page</title>
+	<title>Bichitra Beauty</title>
+	
+	<%@ include file="headingdata.jsp" %>
 </head>
-<body>
-<h1 align="center">Welcome to Ray's Grocery</h1>
+<body class="primary">
+<div class="container">
+	
+	<%@ include file="navbar.jsp"%>
+	<%
+	out.println(drawNavBar("index"));
+	%>
 
-<h2 align="center"><a href="login.jsp">Login</a></h2>
 
-<h2 align="center"><a href="listprod.jsp">Begin Shopping</a></h2>
+	<br><br><br><br><br><br><br>
+	<div class="container-fluid text">
+		<h1 class="text-center">Bichitra Beauty</h1>
+		<h5 class="text-center">Diversity and Self-Expression</h5>
+	</div>
+	
+	<br><br><br><br><br><br><br>
 
-<h2 align="center"><a href="listorder.jsp">List All Orders</a></h2>
 
-<h2 align="center"><a href="customer.jsp">Customer Info</a></h2>
 
-<h2 align="center"><a href="admin.jsp">Administrators</a></h2>
+	<div class="container bottom-info-bar">
+		<%
+			String userName = (String) session.getAttribute("authenticatedUser");
+			if (userName != null)
+				out.println("<p>Current User: "+userName+"</p>");
+		%>
+		<h4 align="center" class="text"><a href="ship.jsp?orderId=1">Test Ship orderId=1</a></h4>
 
-<h2 align="center"><a href="logout.jsp">Log out</a></h2>
-
-<%
-	String userName = (String) session.getAttribute("authenticatedUser");
-	if (userName != null)
-		out.println("<h3 align=\"center\">Signed in as: "+userName+"</h3>");
-%>
-
-<h4 align="center"><a href="ship.jsp?orderId=1">Test Ship orderId=1</a></h4>
-
-<h4 align="center"><a href="ship.jsp?orderId=3">Test Ship orderId=3</a></h4>
-
+		<h4 align="center" class="text"><a href="ship.jsp?orderId=3">Test Ship orderId=3</a></h4>
+	</div>
+</div>
 </body>
 </head>
 
