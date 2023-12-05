@@ -15,8 +15,8 @@
 
     <%@ include file="navbar.jsp"%>
     <%
-    out.println(drawNavBar(""));
-    %>
+	out.println(drawNavBar("", session));
+	%>
 
     <%
     // Get product name to search for
@@ -56,6 +56,53 @@
     }
     %>
 
+    <h3>Write a Review:</h3>
+    <form class="form-group" method="get" action="review.jsp">
+        <input type="hidden" name="productId" value="<%= request.getParameter("id") %>">
+        <input type="radio" id="1" name="rating" value="1">
+        <label for="1">1☆</label>
+        <input type="radio" id="2" name="rating" value="2">
+        <label for="1">2☆</label>
+        <input type="radio" id="3" name="rating" value="3">
+        <label for="1">3☆</label>
+        <input type="radio" id="4" name="rating" value="4">
+        <label for="1">4☆</label>
+        <input type="radio" id="5" name="rating" value="5">
+        <label for="1">5☆</label>
+        <input type="text" class="form-control form-control-lg" name="comment" placeholder="Write your review">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <h3>Reviews:</h3>
+    <%
+    
+    try {
+        getConnection();
+
+        sql = "SELECT reviewRating, reviewDate, reviewComment FROM review WHERE productId = ?;";
+        PreparedStatement pstmt = con.prepareStatement(sql);
+
+        pstmt.setString(1, request.getParameter("id"));
+
+        ResultSet rset = pstmt.executeQuery();
+
+        out.println("<table class='table table-striped'><tbody><tr><th>Rating</th><th>Comment</th><th>Review Date</th></tr>");
+        while(rset.next()) {
+            out.println("<tr><td>");
+            for(int i = 0; i < rset.getInt(1); i++){
+                out.print("★");
+            }
+            out.print("</td><td>"+ rset.getString(3) +"</td><td>"+ rset.getString(2) +"</td></tr>");
+        }
+        out.println("</tbody></table>");
+
+    } catch (SQLException ex) {
+        System.err.println(ex);
+    } finally {
+        closeConnection();
+    }
+
+    %>
 </div>
 </body>
 </html>

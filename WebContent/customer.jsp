@@ -14,7 +14,7 @@
 
 	<%@ include file="navbar.jsp"%>
 	<%
-	out.println(drawNavBar("customer"));
+	out.println(drawNavBar("customer", session));
 	%>
 
 	<h1>Your Information:</h1>
@@ -31,7 +31,7 @@
 		getConnection();
 
 		PreparedStatement pstmt = con.prepareStatement(sql);
-		pstmt.setString(1, "arnold");
+		pstmt.setString(1, userName);
 		ResultSet rset = pstmt.executeQuery();
 		rset.next();
 
@@ -49,14 +49,56 @@
 		out.println("<tr><th>User Id</th><td>"+ rset.getString(11) +"</td></tr>");
 		out.println("</table>");
 		
-	} catch(SQLException ex) {
+
+		out.println("<h1>Your Orders:</h1>");
+
+		out.println("<table class=\"table table-striped secondary\">");
+		out.println("<tr><th>Order Id</th><th>Order Date</th><th>Total Amount</th></tr>");
+
+		sql = "SELECT OS.orderId, OS.orderDate, SUM(OP.price * OP.quantity) as totalAmount\n" +
+				"FROM ordersummary AS OS JOIN orderproduct AS OP ON OS.orderId = OP.orderId\n" +
+				"WHERE OS.customerId = ?\n" +
+				"GROUP BY OS.orderId, OS.orderDate;";
+
+		pstmt = con.prepareStatement(sql);
+
+		pstmt.setNString(1, rset.getString(1));
+
+		rset = pstmt.executeQuery();
+
+
+		sql = "SELECT OP.productId, OP.quantity, OP.Price\n" +
+				"FROM orderProduct AS OP \n" +
+				"WHERE OP.orderId = ?;";
+
+		PreparedStatement statement = con.prepareStatement(sql);
+
+		// For each order in the ResultSet
+		while (rset.next()) {
+			out.println("<tr><td>"+ rset.getString(1) +"</td><td>"+ rset.getString(2) +"</td><td>$"+ rset.getString(3) +"</td></tr>");
+			// Print out the order summary information
+
+			// Write a query to retrieve the products in the order
+			//   - Use a PreparedStatement as will repeat this query many times
+			statement.setInt(1, rset.getInt(1));
+			ResultSet rst2 = statement.executeQuery();
+			out.println("<tr align=\"right\"><td><table class=\"table table-bordered table-striped secondary\"><tbody>");
+			out.println("<tr><th>Product Id</th><th>Quantity</th><th>Price</th></tr>");
+			while (rst2.next()){
+				// For each product in the order
+				// Write out product information
+				out.println("<tr><td>"+ rst2.getString(1) +"</td><td>"+ rst2.getString(2) +"</td><td>$"+ rst2.getString(3) +"</td></tr>");
+			}
+			out.println("</tbody></table></td></tr>");
+		}
+		out.println("</table>");
+
+
+	} catch (SQLException ex) {
 		System.err.println(ex);
 	} finally {
 		closeConnection();
 	}
-	
-
-	// Make sure to close connection
 	%>
 
 </div>

@@ -1,0 +1,57 @@
+SELECT * FROM customer;
+
+INSERT INTO product(productName, productPrice, productDesc, categoryId) VALUES (?,?,?,?);
+
+UPDATE product SET productPrice = ? WHERE productId = ?;
+UPDATE product SET productName = ? WHERE productId = ?;
+UPDATE product SET productDesc = ? WHERE productId = ?;
+UPDATE product SET categoryId = ? WHERE productId = ?;
+DELETE product WHERE productId = ?;
+
+INSERT INTO warehouse(warehouseId, warehouseName) VALUES (?,?);
+UPDATE warehouse SET warehouseName = ? WHERE warehouseId = ?;
+
+UPDATE customer SET firstName = ? WHERE productId = ?;
+UPDATE customer SET lastName = ? WHERE productId = ?;
+UPDATE customer SET email = ? WHERE productId = ?;
+UPDATE customer SET phonenum = ? WHERE productId = ?;
+UPDATE customer SET password = ? WHERE productId = ?;
+
+SELECT I.productId, P.productName, I.warehouseId, W.warehouseName, I.quantity
+FROM productInventory AS I JOIN product AS P ON I.productId =  P.productId
+	JOIN warehouse AS W ON W.warehouseId = I.warehouseId;
+
+UPDATE productinventory SET quantity = quantiy + ? WHERE warehouseId = ? AND productId = ?;
+
+SELECT orderId, orderDate, totalAmount
+FROM ordersummary
+WHERE customerId = 1;
+
+SELECT P.productName, OP.productId, OP.price, OP.quantity
+FROM orderProduct AS OP JOIN product AS P ON P.productId = OP.productId
+WHERE OP.orderId = 1;
+
+SELECT OS.orderId, OS.orderDate, SUM(OP.price * OP.quantity) as totalAmount
+FROM ordersummary AS OS JOIN orderproduct AS OP ON OS.orderId = OP.orderId
+WHERE OP.customerId = ?
+GROUP BY OS.orderId, OS.orderDate;
+
+UPDATE incart (quantity, price) VALUES (?,?) WHERE customerId = ? AND productId = ?
+IF @@ROWCOUNT = 0
+INSERT INTO incart(customerId, productId, quantity, price) VALUES (?,?,?,?);
+
+SELECT C.productId, P.productName, C.price, C.quantity 
+FROM incart AS C JOIN product AS P ON C.productId = P.productId
+WHERE C.customerId = ?;
+
+SELECT COUNT(customerId), customerId FROM customer WHERE userid = ? AND password = ?;
+
+DELETE FROM incart WHERE customerId = ?
+INSERT INTO incart(customerId, productId, quantity, price) VALUES (?,?,?,?);
+
+
+UPDATE review SET reviewRating = ?, reviewDate = ?, reviewComment = ? WHERE customerId = ? AND productId = ?
+IF @@ROWCOUNT = 0
+INSERT INTO review (reviewRating, reviewDate, customerId, productId, reviewComment) VALUES (?,?,?,?,?);
+
+INSERT INTO customer (firstName, lastName, email, phonenum, userid, password) VALUES (?,?,?,?,?,?);

@@ -11,7 +11,7 @@
 
 	<%@ include file="navbar.jsp"%>
 	<%
-	out.println(drawNavBar("login"));
+	out.println(drawNavBar("login", session));
 	%>
 
 	<h3>Please Login to System</h3>
@@ -35,7 +35,8 @@
 	</tr>
 	</table>
 	<br/>
-	<input class="submit" type="submit" name="Submit2" value="Log In">
+	<input class="submit" type="submit" name="button" value="Log In">
+	<input class="submit" type="submit" name="button" value="Sign Up">
 	</form>
 
 	</div>

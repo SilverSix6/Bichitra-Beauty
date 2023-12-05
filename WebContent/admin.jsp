@@ -15,36 +15,63 @@
 
     <%@ include file="navbar.jsp"%>
 	<%
-	out.println(drawNavBar("admin"));
+	out.println(drawNavBar("admin", session));
 	%>
 
-    <h1>Administrator Sales Reports By Day</h1>
-    <%
+    <%@ include file="adminReports.jsp" %>
+    <%@ include file="adminUsers.jsp" %>
+    <%@ include file="adminAddCustomer.jsp" %>
+    <%@ include file="adminAddProduct.jsp" %>
+    <%@ include file="adminAddWarehouse.jsp" %>
+    <%@ include file="adminUpdateCustomer.jsp" %>
+    <%@ include file="adminUpdateProduct.jsp" %>
+    <%@ include file="adminUpdateWarehouse.jsp" %>
+    <%@ include file="adminDeleteProduct.jsp" %>
+    <%@ include file="adminDisplayInventory.jsp" %>
+    <%@ include file="adminUpdateInventory.jsp" %>
 
-    // TODO: Write SQL query that prints out total order amount by day
-    String sql = "SELECT CAST(orderDate AS DATE) AS date, SUM(totalAmount) AS totalOrderAmount FROM orderSummary GROUP BY CAST(orderDate AS DATE) ORDER BY date DESC;";
+    <% 
+        String menu = (String) request.getParameter("id");
 
-    try {
-        getConnection();
-
-        ResultSet rset = con.createStatement().executeQuery(sql);
-
-        NumberFormat currFormat = NumberFormat.getCurrencyInstance();
-
-        out.println("<table class=\"table table-striped\">");
-        out.println("<tr><th>Order Date</td><th>Total Order Amount</td></tr>");
-        while (rset.next()){
-            out.println("<tr><td>"+ rset.getString(1) +"</td><td>"+ currFormat.format(rset.getInt(2)) +"</td></tr>");
+        if (menu != null) {
+            switch(menu) {
+                case "adminReports":
+                    out.println(adminReports());
+                    break;
+                case "adminUsers":
+                    out.println(adminUsers());
+                    break;
+                case "addProduct":
+                    out.println(adminAddProductMenu());
+                    break;
+                case "addCustomer":
+                    out.println(adminAddCustomerMenu());
+                    break;
+                case "addWarehouse":
+                    out.println(adminAddWarehouseMenu());
+                    break;
+                case "updateProduct":
+                    out.println(adminUpdateProductMenu());
+                    break;
+                case "updateCustomer":
+                    out.println(adminUpdateCustomerMenu());
+                    break;
+                case "updateWarehouse":
+                    out.println(adminupdateWarehouseMenu());
+                    break;
+                case "deleteProduct":
+                    out.println(adminDeleteProductMenu());
+                    break;
+                case "displayInventory":
+                    out.println(adminDisplayInventory());
+                    break;
+                case "updateInventory":
+                    out.println(adminUpdateInventoryMenu());
+                    break;
+                default:
+                    break;
+            } 
         }
-        out.println("</table>");
-
-
-    } catch(SQLException ex) {
-        System.err.println(ex);
-    } finally {
-        closeConnection();
-    }
-    
     %>
 </div>
 </body>

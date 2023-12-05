@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.io.*,java.sql.*"%>
-<%@ include file="jdbc.jsp" %>
+<%@ page import="java.util.Objects"%>
+<%@ include file="cartDatabase.jsp" %>
 <%
 	String authenticatedUser = null;
 	session = request.getSession(true);
@@ -13,8 +14,10 @@
 
 	if(authenticatedUser != null)
 		response.sendRedirect("index.jsp");		// Successful login
-	else
-		response.sendRedirect("login.jsp");		// Failed login - redirect back to login page with a message 
+	else if (Objects.equals(request.getParameter("button"), "Sign Up"))
+		response.sendRedirect("signup.jsp");		// Failed login - redirect back to login page with a message 
+	else 
+		response.sendRedirect("login.jsp");
 %>
 
 
@@ -24,6 +27,7 @@
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String retStr = null;
+		String customerId = null;
 
 		if(username == null || password == null)
 				return null;
@@ -35,7 +39,7 @@
 			getConnection();
 	
 			// TODO: Check if userId and password match some customer account. If so, set retStr to be the username.
-			String sql = "SELECT COUNT(customerId) FROM customer WHERE userid = ? AND password = ?;";
+			String sql = "SELECT customerId FROM customer WHERE userid = ? AND password = ?;";
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, username);
 			pstmt.setString(2, password);
@@ -43,8 +47,10 @@
 			ResultSet rset = pstmt.executeQuery();
 			rset.next();
 
-			if(rset.getInt(1) == 1)
+			if(rset.getString(1) != null){
 				retStr = username;			
+				customerId = rset.getString(1);
+			}
 		} 
 		catch (SQLException ex) {
 			out.println(ex);
@@ -57,6 +63,8 @@
 		if(retStr != null)
 		{	session.removeAttribute("loginMessage");
 			session.setAttribute("authenticatedUser",username);
+			session.setAttribute("authenticatedUserId",customerId);
+			session.setAttribute("productList",loadCart(customerId));
 		}
 		else
 			session.setAttribute("loginMessage","Could not connect to the system using that username/password.");

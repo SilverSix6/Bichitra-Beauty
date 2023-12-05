@@ -4,13 +4,11 @@
         <title>Ray's Grocery Main Page</title>
 </head>
 <body>
-<h1 align="center">Welcome to Ray's Grocery</h1>
-
-<h2 align="center"><a href="listprod.jsp">Begin Shopping</a></h2>
-
-<h2 align="center"><a href="listorder.jsp">List All Orders</a></h2>
-
-<h2 align="center"><a href="index.jsp">New Main Page</a></h2>
+<form method="get" action="adminUpdateDatabase.jsp">
+<input type="text" name="value1" size="50" placeholder="Product Id"/>
+<input type="Submit" value="Delete Product" />
+<input type="hidden" name="action" value="deleteProduct"/>
+</form>
 
 </body>
 </head>

@@ -16,15 +16,14 @@
 
 	<%@ include file="navbar.jsp"%>
 	<%
-	out.println(drawNavBar("showcart"));
+	out.println(drawNavBar("showcart", session));
 	%>
-
 	<%
 	// Get the current list of products
 	@SuppressWarnings({"unchecked"})
 	HashMap<String, ArrayList<Object>> productList = (HashMap<String, ArrayList<Object>>) session.getAttribute("productList");
 
-	if (productList == null)
+	if (productList == null || productList.size() == 0)
 	{	out.println("<H1>Your shopping cart is empty!</H1>");
 		productList = new HashMap<String, ArrayList<Object>>();
 	}
@@ -33,7 +32,7 @@
 		NumberFormat currFormat = NumberFormat.getCurrencyInstance();
 
 		out.println("<h1>Your Shopping Cart</h1>");
-		out.print("<table class='table table-striped'><tr><th>Product Id</th><th>Product Name</th><th>Quantity</th>");
+		out.print("<table class='table table-striped'><tr><th>Action</th><th>Product Id</th><th>Product Name</th><th>Quantity</th>");
 		out.println("<th>Price</th><th>Subtotal</th></tr>");
 
 		double total =0;
@@ -47,7 +46,8 @@
 				continue;
 			}
 			
-			out.print("<tr><td>"+product.get(0)+"</td>");
+			out.print("<tr><td><a href=\"increaseCart.jsp?id="+ product.get(0) +"\"><button>More</button></a><a href=\"decreaseCart.jsp?id="+ product.get(0) +"\"><button>Less</button></a><a href=\"removeCart.jsp?id="+ product.get(0) +"\"><button>Remove</button></a></td>");
+			out.print("<td>"+product.get(0)+"</td>");
 			out.print("<td>"+product.get(1)+"</td>");
 
 			out.print("<td align=\"center\">"+product.get(3)+"</td>");
@@ -78,7 +78,7 @@
 			out.println("</tr>");
 			total = total +pr*qty;
 		}
-		out.println("<tr><td colspan=\"4\" align=\"right\"><b>Order Total</b></td>"
+		out.println("<tr><td colspan=\"5\" align=\"right\"><b>Order Total</b></td>"
 				+"<td align=\"right\">"+currFormat.format(total)+"</td></tr>");
 		out.println("</table>");
 

@@ -7,10 +7,11 @@ Public methods:
 -->
 
 
+<%@ page import="java.sql.*"%>
 <%@ page import="java.io.PrintWriter" %>
 
 <%! 
-public String drawNavBar(String active){
+public String drawNavBar(String active, HttpSession session){
     StringBuilder output = new StringBuilder();
     output.append("<nav class=\"navbar navbar-inverse bg-body-tertiary\">\n" +
                 "    <div class=\"container-fluid\">\n" +
@@ -46,13 +47,17 @@ public String drawNavBar(String active){
         output.append("            <li class=\"active\"><a class=\"nav-link text-inverse\" href=\"admin.jsp\">Administrators</a></li>");
     else
         output.append("            <li><a class=\"nav-link text-inverse\" href=\"admin.jsp\">Administrators</a></li>");
-    if(active.equals("logout"))
-        output.append("            <li class=\"active\"><a class=\"nav-link text-inverse\" href=\"logout.jsp\">Log out</a></li>");
-    else
-        output.append("            <li><a class=\"nav-link text-inverse\" href=\"logout.jsp\">Log out</a></li>");
+    String userName = (String) session.getAttribute("authenticatedUser");
+    if (userName != null) {
+        if(active.equals("logout"))
+            output.append("            <li class=\"active\"><a class=\"nav-link text-inverse\" href=\"logout.jsp\">"+ userName +": Logout</a></li>");
+        else
+            output.append("            <li><a class=\"nav-link text-inverse\" href=\"logout.jsp\">"+ userName +": Logout</a></li>");
+    }
     output.append("        </ul>\n" +
                 "    </div>\n" +
                 "</nav>");
+
     return output.toString();
 }
 %>

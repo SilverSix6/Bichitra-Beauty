@@ -13,7 +13,7 @@
 	
 	<%@ include file="navbar.jsp"%>
 	<%
-	out.println(drawNavBar("listorder"));
+	out.println(drawNavBar("listorder", session));
 	%>
 	
 	<h1>Order List</h1>
@@ -86,7 +86,7 @@
 				System.err.println("SQLException: " + e);
 			}
 		}
-	%>
+	%>	
 </div>
 </body>
 </html>

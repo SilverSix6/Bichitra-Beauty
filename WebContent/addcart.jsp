@@ -17,6 +17,7 @@ String name = request.getParameter("name");
 String price = request.getParameter("price");
 Integer quantity = new Integer(1);
 
+
 // Store product information in an ArrayList
 ArrayList<Object> product = new ArrayList<Object>();
 product.add(id);
@@ -36,3 +37,4 @@ else
 session.setAttribute("productList", productList);
 %>
 <jsp:forward page="showcart.jsp" />
+
